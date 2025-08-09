@@ -7,7 +7,7 @@ export const geometryToPolygon = (geometry) => {
 // 依据多边形轮廓设置所有标志线
 export const polygonToLines = (polygon) => {
     const linesPath = []
-    const pointsPos = polygon?.geometry?.coordinates[0]
+    const pointsPos = polygon?.geometry?.coordinates[0]?.slice(0, -1)
     for (let i = 0; i < pointsPos.length; i++) {
         const curPos = pointsPos[i]
         const nextPos = pointsPos[i + 1] ? pointsPos[i + 1] : pointsPos[0]
@@ -106,6 +106,7 @@ export const getPolygonAngles = (polygon) => {
 export const roundedCornersByPolygon = (polygon, radius, steps, minAngle, maxAngle) => {
     const linesPath = polygonToLines(polygon)
     const angles = getPolygonAngles(polygon)
+    console.log('linesPath: ', linesPath)
     console.log('angles: ', angles)
 
     // 过滤出需要圆角化的角度
@@ -152,7 +153,7 @@ const generateRoundedPolygon = (polygon, anglesToRound, radius, steps) => {
         }
     }
 
-    return result
+    return turf.cleanCoords(turf.multiPoint(result)).geometry.coordinates
 }
 
 /**
