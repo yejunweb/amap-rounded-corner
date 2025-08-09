@@ -2,7 +2,8 @@ import { geometryToPolygon, roundedCornersByPolygon } from '/utils.js'
 
 // 初始化地图
 const map = new TMap.Map('map', {
-    center: new TMap.LatLng(31.869246755566213, 117.16634751052449),
+    // center: new TMap.LatLng(31.869246755566213, 117.16634751052449),
+    center: new TMap.LatLng(31.867487922400564, 117.16740688084086),
     zoom: 17,
 })
 
@@ -25,18 +26,23 @@ let originalPolygon = null
 let roundedPolygon = null
 
 const originalCoords = [
-    [117.16474496229398, 31.87017788945035],
-    [117.16389390775942, 31.868269112572477],
-    [117.16616291826983, 31.86799531527631],
-    [117.1682498, 31.8681595],
-    [117.1682887, 31.8699996],
-    [117.1684129, 31.8702436],
-    [117.1684207, 31.8704546],
-    [117.1681411, 31.8705008],
-    [117.1675819, 31.8701974],
-    [117.16654910232694, 31.870992280285826],
-    [117.1658346, 31.8702568],
-    [117.1651745, 31.8702964],
+    // [117.16474496229398, 31.87017788945035],
+    // [117.16389390775942, 31.868269112572477],
+    // [117.16616291826983, 31.86799531527631],
+    // [117.1682498, 31.8681595],
+    // [117.1682887, 31.8699996],
+    // [117.1684129, 31.8702436],
+    // [117.1684207, 31.8704546],
+    // [117.1681411, 31.8705008],
+    // [117.1675819, 31.8701974],
+    // [117.16654910232694, 31.870992280285826],
+    // [117.1658346, 31.8702568],
+    // [117.1651745, 31.8702964],
+    [117.1666799, 31.8679809],
+    [117.1666799, 31.8669883],
+    [117.168149, 31.8670065],
+    [117.1681276, 31.8679809],
+    [117.1666799, 31.8679809],
 ]
 
 // 绘制原始多边形
@@ -79,8 +85,15 @@ document.getElementById('apply').addEventListener('click', () => {
     console.log('Rounded Corners Params: ', radius, steps, minAngle, maxAngle)
 
     // 绘制圆角化后的多边形
-    const roundedPolygon = roundedCornersByPolygon(originalPolygon, radius, steps, minAngle, maxAngle)
+    const { roundedPolygon } = roundedCornersByPolygon(originalPolygon, radius, steps, minAngle, maxAngle)
     console.log('roundedPolygon', roundedPolygon)
+    originalLayer.setGeometries([
+        {
+            id: 'original',
+            styleId: 'defaultPolygon',
+            paths: roundedPolygon.map((v) => new TMap.LatLng(v[1], v[0])),
+        },
+    ])
 })
 
 // 重置
