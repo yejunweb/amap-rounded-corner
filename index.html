@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>腾讯地图 - 智能圆角化工具</title>
+        <script src="https://map.qq.com/api/gljs?v=1.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"></script>
+        <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            #map {
+                width: 100%;
+                height: 100vh;
+            }
+            #controls {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 15px;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                z-index: 9999;
+                min-width: 280px;
+                backdrop-filter: blur(10px);
+            }
+            .control-group {
+                margin-bottom: 15px;
+            }
+            .control-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: 500;
+                color: #333;
+            }
+            .control-group input[type='range'] {
+                width: 100%;
+                margin: 5px 0;
+            }
+            .control-group span {
+                font-weight: bold;
+                color: #007bff;
+            }
+            button {
+                padding: 8px 16px;
+                margin: 2px;
+                cursor: pointer;
+                background: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-size: 14px;
+                transition: background 0.3s;
+            }
+            button:hover {
+                background: #0056b3;
+            }
+            .error {
+                color: #dc3545;
+                margin-top: 10px;
+                padding: 8px;
+                background: rgba(220, 53, 69, 0.1);
+                border-radius: 4px;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <div id="controls">
+            <div class="control-group">
+                <label for="radius">圆角半径: </label>
+                <input type="range" id="radius" min="1" max="100" value="15" step="1" />
+                <span id="radius-value">15</span> 米
+            </div>
+            <div class="control-group">
+                <label for="steps">基础分段数: </label>
+                <input type="range" id="steps" min="4" max="32" value="12" step="1" />
+                <span id="steps-value">12</span>
+            </div>
+            <div class="control-group">
+                <label for="angle-min">最小角度: </label>
+                <input type="range" id="angle-min" min="0" max="90" value="45" step="1" />
+                <span id="angle-min-value">45</span>°
+            </div>
+            <div class="control-group">
+                <label for="angle-max">最大角度: </label>
+                <input type="range" id="angle-max" min="90" max="180" value="175" step="1" />
+                <span id="angle-max-value">175</span>°
+            </div>
+            <div class="control-group">
+                <button id="draw-original">绘制原始图形</button>
+                <button id="apply">应用圆角化</button>
+                <button id="reset">重置</button>
+            </div>
+            <div id="error-message" class="error"></div>
+        </div>
+
+        <script src="/index.js"></script>
+    </body>
+</html>
