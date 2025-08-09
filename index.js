@@ -1,4 +1,4 @@
-import { geometrieToPolygon } from './utils.js'
+import { geometryToPolygon, roundedCornersByPolygon } from '/utils.js'
 
 // 初始化地图
 const map = new TMap.Map('map', {
@@ -45,7 +45,7 @@ const drawOriginalPolygon = () => {
     const paths = originalCoords.map((v) => new TMap.LatLng(v[1], v[0]))
 
     // 转换为Turf.js可用的格式
-    originalPolygon = geometrieToPolygon({ paths })
+    originalPolygon = geometryToPolygon({ paths })
 
     // 添加到地图
     originalLayer.setGeometries([
@@ -76,9 +76,11 @@ document.getElementById('apply').addEventListener('click', () => {
     const steps = parseInt(document.getElementById('steps').value)
     const minAngle = (parseFloat(document.getElementById('angle-min').value) * Math.PI) / 180 // 转换为弧度
     const maxAngle = (parseFloat(document.getElementById('angle-max').value) * Math.PI) / 180 // 转换为弧度
-    console.log('圆角化参数: ', radius, steps, minAngle, maxAngle)
+    console.log('Rounded Corners Params: ', radius, steps, minAngle, maxAngle)
 
     // 绘制圆角化后的多边形
+    const roundedPolygon = roundedCornersByPolygon(originalPolygon, radius, steps, minAngle, maxAngle)
+    console.log('roundedPolygon', roundedPolygon)
 })
 
 // 重置
